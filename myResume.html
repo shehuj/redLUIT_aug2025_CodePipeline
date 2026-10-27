@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Jenom Shehu - Senior DevOps/Site Reliability Engineer resume">
     <title>Jenom Shehu - DevOps/SRE Engineer</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"
+          integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
         :root {
             --primary: #667eea;
@@ -424,6 +427,26 @@
                 backdrop-filter: none;
                 background: white;
             }
+
+            /* Cards below the fold are hidden until scrolled into view; always show them on paper */
+            .card, .name, .fade-in, .slide-in-left, .slide-in-right {
+                opacity: 1 !important;
+                transform: none !important;
+                animation: none !important;
+            }
+        }
+
+        /* Respect users who prefer reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            .card, .name, .fade-in, .slide-in-left, .slide-in-right {
+                opacity: 1 !important;
+                transform: none !important;
+            }
         }
     </style>
 </head>
@@ -622,7 +645,7 @@
                             <li>Engineered infrastructure-as-code solutions using Terraform and CloudFormation</li>
                             <li>Implemented full-stack observability platforms reducing MTTR by 40%</li>
                             <li>Spearheaded cloud migration initiatives resulting in <strong>30% reduction in infrastructure costs</strong></li>
-                            <li>Designed PostgreSQL multi-region replication strategy with <1 second replication lag</li>
+                            <li>Designed PostgreSQL multi-region replication strategy with &lt;1 second replication lag</li>
                         </ul>
                     </div>
 
@@ -739,7 +762,12 @@
                 }, 500);
             }
 
-            // Add scroll-based animations for better UX
+            // Add scroll-based animations for better UX (skipped on browsers without
+            // IntersectionObserver so the cards are never left hidden)
+            if (!('IntersectionObserver' in window)) {
+                return;
+            }
+
             const observerOptions = {
                 threshold: 0.1,
                 rootMargin: '0px 0px -50px 0px'

@@ -1,49 +1,73 @@
-# This worklow will check for the presence of README.md and .gitignore files.
-# Then install Python dependencies, run tests and lint with a variety of Python versions.
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+# Continuous integration: verifies required files, lints Python and CloudFormation,
+# and runs the test suite on every push and pull request to main/dev.
+# Deployment itself is handled by AWS CodePipeline (see infrastructure/pipeline.yaml).
 
 name: TestsPackage
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "dev" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-
+  test:
+    name: Test (Python ${{ matrix.python-version }})
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.11", "3.12", "3.13"]
 
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Check presence of required files
-      run: | 
-        python tests/test_required_files.py
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
+        cache: pip
+        cache-dependency-path: requirements-dev.txt
+
+    - name: Check presence of required files
+      run: python tests/test_required_files.py
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install flake8 pytest
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        python -m pip install -r requirements-dev.txt
 
     - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      run: python -m flake8 . --count --show-source --statistics
 
     - name: Test with pytest
-      run: |
-        pytest tests/
+      run: python -m pytest -v tests/
+
+  infrastructure:
+    name: Lint CloudFormation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
+        cache: pip
+        cache-dependency-path: requirements-dev.txt
+
+    - name: Install cfn-lint
+      run: python -m pip install -r requirements-dev.txt
+
+    - name: Lint templates
+      run: cfn-lint infrastructure/*.yaml

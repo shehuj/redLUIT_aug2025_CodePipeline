@@ -1,0 +1,4 @@
+# Tooling used by CI (GitHub Actions) and the CodeBuild test stage
+pytest==9.1.1
+flake8==7.4.1
+cfn-lint==1.58.0
