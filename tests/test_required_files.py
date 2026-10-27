@@ -2,12 +2,11 @@
 """Verify the repository contains the files the pipeline and reviewers rely on.
 
 Runs under pytest, and can also be run directly (``python tests/test_required_files.py``)
-as a fast pre-check that exits non-zero when anything is missing.
+as a fast pre-check that exits non-zero when anything is missing. It deliberately uses only
+the standard library so the pre-check works before any dependencies are installed.
 """
 import sys
 from pathlib import Path
-
-import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -27,14 +26,14 @@ def find_missing(base_dir: Path, required_files: list[str]) -> list[str]:
     return [name for name in required_files if not (base_dir / name).is_file()]
 
 
-@pytest.mark.parametrize("filename", REQUIRED_FILES)
-def test_required_file_present(filename):
-    assert (REPO_ROOT / filename).is_file(), f"Missing required file: {filename}"
+def test_required_files_present():
+    missing = find_missing(REPO_ROOT, REQUIRED_FILES)
+    assert not missing, f"Missing required file(s): {missing}"
 
 
-@pytest.mark.parametrize("filename", ["README.md", "LICENSE"])
-def test_required_file_not_empty(filename):
-    assert (REPO_ROOT / filename).read_text(encoding="utf-8").strip(), f"{filename} is empty"
+def test_required_files_not_empty():
+    empty = [name for name in ("README.md", "LICENSE") if not (REPO_ROOT / name).read_text(encoding="utf-8").strip()]
+    assert not empty, f"Empty file(s): {empty}"
 
 
 def main() -> int:
