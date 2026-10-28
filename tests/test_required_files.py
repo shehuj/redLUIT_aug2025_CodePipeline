@@ -15,7 +15,6 @@ REQUIRED_FILES = [
     "LICENSE",
     ".gitignore",
     "website.html",
-    "myResume.html",
     "bucketPolicy.json",
     "infrastructure/site.yaml",
     ".github/workflows/TestsPackage.yml",
