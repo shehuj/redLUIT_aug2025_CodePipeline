@@ -1,21 +1,20 @@
 # Continuous integration: verifies required files, lints Python and CloudFormation,
-# and runs the test suite on every push and pull request to main/dev.
-# Deployment itself is handled by AWS CodePipeline (see infrastructure/pipeline.yaml).
+# and runs the test suite on every pull request to main/dev. Pushes to main/dev run it
+# through deploy.yml (workflow_call), which deploys only after these jobs pass.
 
 name: TestsPackage
 
 on:
-  push:
-    branches: [ "main", "dev" ]
   pull_request:
     branches: [ "main", "dev" ]
+  workflow_call:
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: tests-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
