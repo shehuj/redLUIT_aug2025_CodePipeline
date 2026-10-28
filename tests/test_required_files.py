@@ -17,8 +17,9 @@ REQUIRED_FILES = [
     "website.html",
     "myResume.html",
     "bucketPolicy.json",
-    "buildspec.yml",
-    "infrastructure/pipeline.yaml",
+    "infrastructure/site.yaml",
+    ".github/workflows/TestsPackage.yml",
+    ".github/workflows/deploy.yml",
 ]
 
 
