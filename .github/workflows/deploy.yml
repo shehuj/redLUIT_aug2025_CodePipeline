@@ -49,6 +49,16 @@ jobs:
 
     - name: Deploy hosting stack
       run: |
+        # A stack whose first creation failed is stuck in ROLLBACK_COMPLETE and can only be deleted.
+        # It never served traffic (its bucket is kept by DeletionPolicy: Retain), so recreate it.
+        STATUS=$(aws cloudformation describe-stacks --stack-name "$STACK_NAME" \
+          --query "Stacks[0].StackStatus" --output text 2>/dev/null || echo NONE)
+        if [ "$STATUS" = "ROLLBACK_COMPLETE" ]; then
+          echo "Removing $STACK_NAME left in ROLLBACK_COMPLETE by a failed first deployment"
+          aws cloudformation delete-stack --stack-name "$STACK_NAME"
+          aws cloudformation wait stack-delete-complete --stack-name "$STACK_NAME"
+        fi
+
         aws cloudformation deploy \
           --stack-name "$STACK_NAME" \
           --template-file infrastructure/site.yaml \
