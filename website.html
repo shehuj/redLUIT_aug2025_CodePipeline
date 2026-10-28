@@ -123,6 +123,11 @@
             transform: translateY(-2px);
         }
 
+        .contact-item a {
+            color: inherit;
+            text-decoration: none;
+        }
+
         /* Main Content */
         .main-content {
             display: grid;
@@ -460,18 +465,18 @@
                 <div class="contact-info">
                     <div class="contact-item">
                         <i class="fas fa-envelope"></i>
-                        <span>jen4rill@gmail.com</span>
+                        <a href="mailto:jen4rill@gmail.com">jen4rill@gmail.com</a>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-linkedin"></i>
+                        <a href="https://linkedin.com/in/jenom-shehu" rel="noopener">linkedin.com/in/jenom-shehu</a>
                     </div>
                     <div class="contact-item">
                         <i class="fas fa-map-marker-alt"></i>
-                        <span>USC | Dallas, TX</span>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <span>Available upon request</span>
+                        <span>USC | Dallas Metroplex, TX</span>
                     </div>
                 </div>
-                
+
                 <!-- Key Stats -->
                 <div class="stats-grid">
                     <div class="stat-item">
@@ -488,7 +493,7 @@
                     </div>
                     <div class="stat-item">
                         <span class="stat-number">$500K</span>
-                        <span class="stat-label">Annual Cost Savings</span>
+                        <span class="stat-label">Annual Cloud Waste Eliminated</span>
                     </div>
                 </div>
             </div>
@@ -500,65 +505,75 @@
                 <!-- Technical Skills -->
                 <div class="card">
                     <h3><i class="fas fa-cogs"></i> Technical Skills</h3>
-                    
+
                     <div class="skill-category">
                         <h4><i class="fab fa-aws"></i> Cloud Platforms</h4>
                         <ul class="skill-list">
-                            <li class="skill-item">AWS (Expert)</li>
+                            <li class="skill-item">AWS</li>
                             <li class="skill-item">Google Cloud Platform</li>
                             <li class="skill-item">Azure</li>
-                            <li class="skill-item">Multi-Cloud Architecture</li>
+                            <li class="skill-item">Multi-Region Architecture</li>
                         </ul>
                     </div>
 
                     <div class="skill-category">
-                        <h4><i class="fas fa-shipping-fast"></i> CI/CD & Automation</h4>
+                        <h4><i class="fas fa-shipping-fast"></i> CI/CD</h4>
                         <ul class="skill-list">
-                            <li class="skill-item">Jenkins</li>
                             <li class="skill-item">Harness</li>
+                            <li class="skill-item">Jenkins &amp; Groovy</li>
                             <li class="skill-item">GitHub Actions</li>
                             <li class="skill-item">GitOps</li>
                         </ul>
                     </div>
 
                     <div class="skill-category">
-                        <h4><i class="fab fa-docker"></i> Containerization</h4>
+                        <h4><i class="fab fa-docker"></i> Containers &amp; Orchestration</h4>
                         <ul class="skill-list">
                             <li class="skill-item">Docker</li>
-                            <li class="skill-item">Kubernetes</li>
+                            <li class="skill-item">Kubernetes (EKS, GKE)</li>
                             <li class="skill-item">Helm</li>
-                            <li class="skill-item">AWS ECS/EKS</li>
+                            <li class="skill-item">AWS ECS &amp; ECR</li>
+                            <li class="skill-item">JFrog Artifactory &amp; Xray</li>
                         </ul>
                     </div>
 
                     <div class="skill-category">
-                        <h4><i class="fas fa-code"></i> Infrastructure as Code</h4>
+                        <h4><i class="fas fa-code"></i> Infrastructure as Code &amp; Config</h4>
                         <ul class="skill-list">
                             <li class="skill-item">Terraform</li>
-                            <li class="skill-item">CloudFormation</li>
+                            <li class="skill-item">CloudFormation &amp; AWS CDK</li>
                             <li class="skill-item">Ansible</li>
-                            <li class="skill-item">AWS CDK</li>
+                            <li class="skill-item">AWS SSM &amp; SaltStack</li>
                         </ul>
                     </div>
 
                     <div class="skill-category">
-                        <h4><i class="fas fa-chart-line"></i> Monitoring & Observability</h4>
+                        <h4><i class="fas fa-chart-line"></i> Monitoring &amp; Observability</h4>
                         <ul class="skill-list">
-                            <li class="skill-item">Prometheus & Grafana</li>
-                            <li class="skill-item">ELK Stack</li>
-                            <li class="skill-item">Splunk</li>
-                            <li class="skill-item">New Relic</li>
-                            <li class="skill-item">Dynatrace</li>
+                            <li class="skill-item">Prometheus, Grafana &amp; Loki</li>
+                            <li class="skill-item">ELK Stack &amp; Splunk</li>
+                            <li class="skill-item">AWS CloudWatch</li>
+                            <li class="skill-item">Dynatrace &amp; New Relic</li>
                         </ul>
                     </div>
 
                     <div class="skill-category">
-                        <h4><i class="fas fa-terminal"></i> Programming & Scripting</h4>
+                        <h4><i class="fas fa-shield-alt"></i> Security</h4>
                         <ul class="skill-list">
-                            <li class="skill-item">Python</li>
-                            <li class="skill-item">Bash</li>
-                            <li class="skill-item">Groovy</li>
-                            <li class="skill-item">YAML</li>
+                            <li class="skill-item">IAM, Security Groups &amp; NACLs</li>
+                            <li class="skill-item">HashiCorp Vault &amp; KMS</li>
+                            <li class="skill-item">SAST/DAST, Snyk &amp; SonarQube</li>
+                            <li class="skill-item">AWS ACM &amp; Venafi</li>
+                        </ul>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-terminal"></i> Programming &amp; Tools</h4>
+                        <ul class="skill-list">
+                            <li class="skill-item">Python (Boto3) &amp; Bash</li>
+                            <li class="skill-item">Java (Spring Boot)</li>
+                            <li class="skill-item">Git &amp; GitHub</li>
+                            <li class="skill-item">Jira &amp; Confluence</li>
                         </ul>
                     </div>
                 </div>
@@ -576,7 +591,7 @@
                     </div>
                     <div class="cert-item">
                         <i class="fab fa-google"></i>
-                        <span>Google Cloud Professional Cloud Engineer</span>
+                        <span>Google Cloud Certified – Professional Cloud Engineer</span>
                     </div>
                 </div>
 
@@ -602,50 +617,56 @@
                 <div class="card">
                     <h3><i class="fas fa-user"></i> Professional Summary</h3>
                     <p class="summary-text">
-                        Results-driven <span class="highlight">DevOps/Site Reliability Engineer</span> with <span class="highlight">8+ years</span> of experience architecting, implementing, and maintaining highly scalable cloud infrastructure and CI/CD pipelines. Proven expertise in designing fault-tolerant systems on AWS, with deep knowledge of Infrastructure as Code using Terraform and CloudFormation.
+                        Results-driven <span class="highlight">DevOps/Site Reliability Engineer</span> with <span class="highlight">8+ years</span> of experience architecting, implementing, and maintaining highly scalable cloud infrastructure and CI/CD pipelines. Proven expertise in designing fault-tolerant systems on AWS, with deep knowledge of Infrastructure as Code using Terraform and CloudFormation, and container orchestration with <span class="highlight">Docker, Kubernetes, and Helm</span>.
                     </p>
                     <p class="summary-text">
-                        Skilled in container orchestration with <span class="highlight">Docker, Kubernetes, and Helm</span>, alongside comprehensive experience in building and optimizing continuous integration and deployment pipelines using Jenkins and Harness. Demonstrated success in improving system reliability and performance through implementation of robust monitoring solutions, maintaining <span class="highlight">99.9%+ uptime</span> for critical services.
+                        Builds and optimizes continuous integration and deployment pipelines with <span class="highlight">Jenkins and Harness</span>, and improves reliability through robust monitoring with Prometheus, Grafana, and Loki, maintaining <span class="highlight">99.9%+ uptime</span> for critical services. Strong background in security best practices, including RBAC, encryption, and log retention policies for compliance and data protection.
+                    </p>
+                    <p class="summary-text">
+                        Collaborates across teams to streamline software delivery, mentors junior engineers, and leads incident response in high-pressure environments, applying SRE principles with a focus on automation, observability, and continuous improvement.
                     </p>
                 </div>
 
                 <!-- Professional Experience -->
                 <div class="card">
                     <h3><i class="fas fa-briefcase"></i> Professional Experience</h3>
-                    
+
+                    <div class="experience-item">
+                        <div class="job-header">
+                            <div class="company-name">CVS Health</div>
+                            <div class="job-title">Site Reliability Engineer (DevOps/SRE)</div>
+                            <div class="duration">
+                                <i class="fas fa-calendar"></i>
+                                Nov 2025 – Present
+                            </div>
+                        </div>
+                        <ul class="achievements">
+                            <li>Architected enterprise-grade CI/CD pipelines on Jenkins and Kubernetes, achieving a <strong>70% reduction in deployment time</strong> and enabling weekly release cycles</li>
+                            <li>Lead 24/7 incident response, establishing SLO/SLI frameworks, runbooks, and on-call rotations to ensure <strong>99.95% service availability</strong></li>
+                            <li>Implemented full-stack observability (Prometheus, Grafana, ELK), <strong>reducing MTTR by 40%</strong> through predictive analytics and automated incident detection</li>
+                            <li>Spearheaded migration of monolithic applications to cloud-native microservices, cutting <strong>infrastructure costs by 30%</strong></li>
+                            <li>Engineered Terraform and CloudFormation solutions provisioning auto-scaling AWS/GCP environments</li>
+                            <li>Own bi-weekly release deployments and built CI/CD compliance gates for secure, managed approvals before any change reaches production</li>
+                            <li>Automated alerting and issue triage, and configured on-call groups and rotations in xMatters</li>
+                        </ul>
+                    </div>
+
                     <div class="experience-item">
                         <div class="job-header">
                             <div class="company-name">Global Logic, Frisco, TX</div>
                             <div class="job-title">Senior Software Engineer (DevOps/SRE)</div>
                             <div class="duration">
                                 <i class="fas fa-calendar"></i>
-                                May 2025 – Present
+                                May 2025 – Dec 2025
                             </div>
                         </div>
                         <ul class="achievements">
-                            <li>Spearhead end-to-end software development lifecycle for enterprise-scale strategic initiatives</li>
-                            <li>Maintain <strong>99.9%+ uptime</strong> across mission-critical infrastructure and applications</li>
-                            <li>Design and implement secure encryption workflows with integrated customer-managed key solutions</li>
-                            <li>Architect resilient, cloud-native infrastructure leveraging Kubernetes, Docker, and Terraform</li>
-                            <li>Develop comprehensive observability ecosystems achieving <strong>40% reduction in MTTR</strong></li>
-                        </ul>
-                    </div>
-
-                    <div class="experience-item">
-                        <div class="job-header">
-                            <div class="company-name">Level Up In Tech</div>
-                            <div class="job-title">DevOps Engineer (Contract)</div>
-                            <div class="duration">
-                                <i class="fas fa-calendar"></i>
-                                May 2025 – Present
-                            </div>
-                        </div>
-                        <ul class="achievements">
-                            <li>Architected enterprise-grade CI/CD pipelines achieving <strong>70% reduction in deployment time</strong></li>
-                            <li>Engineered infrastructure-as-code solutions using Terraform and CloudFormation</li>
-                            <li>Implemented full-stack observability platforms reducing MTTR by 40%</li>
-                            <li>Spearheaded cloud migration initiatives resulting in <strong>30% reduction in infrastructure costs</strong></li>
-                            <li>Designed PostgreSQL multi-region replication strategy with &lt;1 second replication lag</li>
+                            <li>Led the end-to-end software development lifecycle for enterprise-scale strategic initiatives while mentoring junior engineers</li>
+                            <li>Maintained <strong>99.9%+ uptime</strong> across mission-critical infrastructure through proactive monitoring and rapid incident response</li>
+                            <li>Designed secure encryption workflows with integrated customer-managed keys, ensuring regulatory compliance and data integrity</li>
+                            <li>Architected cloud-native infrastructure with Kubernetes, Docker, and Terraform across AWS and Azure</li>
+                            <li>Built highly available Java (Spring Boot) microservices and tuned JVM performance (garbage collection, thread pools, concurrency) to cut latency and memory usage</li>
+                            <li>Developed Grafana and Prometheus observability ecosystems, achieving a <strong>40% reduction in MTTR</strong></li>
                         </ul>
                     </div>
 
@@ -655,15 +676,16 @@
                             <div class="job-title">Senior Site Reliability Engineer</div>
                             <div class="duration">
                                 <i class="fas fa-calendar"></i>
-                                Nov. 2022 – May 2025
+                                Nov 2022 – May 2025
                             </div>
                         </div>
                         <ul class="achievements">
-                            <li>Architected secure CI/CD pipeline reducing deployment time from <strong>2 hours to 30 minutes</strong></li>
-                            <li>Developed Jenkins Pipeline as Code framework with custom Groovy scripts</li>
-                            <li>Utilized Harness Cloud Cost Management identifying <strong>$200K in annual savings</strong></li>
-                            <li>Engineered reusable Terraform modules achieving 80% reduction in manual provisioning errors</li>
-                            <li>Implemented comprehensive monitoring using Prometheus, Grafana, ELK Stack, and Splunk</li>
+                            <li>Architected a secure Jenkins CI/CD pipeline with SAST/DAST scanning, reducing deployment time from <strong>2 hours to 30 minutes</strong></li>
+                            <li>Developed custom Harness pipeline templates standardizing deployments across <strong>50+ microservices</strong>, with Harness Delegates and Feature Flags for progressive rollouts</li>
+                            <li>Used Harness Cloud Cost Management to identify <strong>$200K in annual AWS savings</strong></li>
+                            <li>Engineered reusable Terraform modules and Ansible playbooks, achieving an <strong>80% reduction in manual provisioning errors</strong></li>
+                            <li>Deployed full-stack observability with Prometheus, Grafana, ELK, Splunk, AppDynamics, and Dynatrace</li>
+                            <li>Established SLO/SLI frameworks, migrated incident management from PagerDuty to xMatters, and maintained <strong>99.9% availability</strong> on 24/7 on-call</li>
                         </ul>
                     </div>
 
@@ -673,57 +695,116 @@
                             <div class="job-title">Senior DevOps/SRE</div>
                             <div class="duration">
                                 <i class="fas fa-calendar"></i>
-                                August 2021 – November 2022
+                                Aug 2021 – Nov 2022
                             </div>
                         </div>
                         <ul class="achievements">
-                            <li>Designed scalable task queues using AWS SQS and Lambda Functions</li>
-                            <li>Developed automation scripts increasing operational efficiency by <strong>60%</strong></li>
-                            <li>Managed 24/7 on-call rotations achieving <strong>40% reduction in MTTR</strong></li>
-                            <li>Orchestrated comprehensive AWS and Digital Ocean resource deployment</li>
+                            <li>Designed scalable task queues for backups and security patching with AWS SQS, Lambda, and Python</li>
+                            <li>Automated repetitive operations with Bash and Python, increasing <strong>operational efficiency by 60%</strong></li>
+                            <li>Automated incident response with Prometheus, Grafana, and Splunk, achieving a <strong>40% reduction in MTTR</strong></li>
+                            <li>Automated cloud deployments with Ansible, Python (Boto &amp; Fabric), CloudFormation, and Terraform across AWS and DigitalOcean</li>
+                            <li>Defined and enforced SLAs, SLOs, and SLIs, and led post-incident reviews during 24/7 on-call rotations</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header">
+                            <div class="company-name">Pilot Thomas Logistics, Fort Worth, TX</div>
+                            <div class="job-title">Cloud Support Engineer (Contract)</div>
+                            <div class="duration">
+                                <i class="fas fa-calendar"></i>
+                                Apr 2019 – Aug 2021
+                            </div>
+                        </div>
+                        <ul class="achievements">
+                            <li>Orchestrated bi-weekly zero-downtime production releases with a <strong>98% successful deployment rate</strong></li>
+                            <li>Standardized Docker environments, improving <strong>deployment consistency by 75%</strong> across engineering teams</li>
+                            <li>Implemented Ansible configuration management, reducing <strong>provisioning time by 60%</strong></li>
+                            <li>Resolved complex network, storage, compute, and messaging issues, maintaining <strong>99.5% service availability</strong> and reducing MTTR by 35%</li>
+                        </ul>
+                    </div>
+
+                    <div class="experience-item">
+                        <div class="job-header">
+                            <div class="company-name">Henry Schein, Jacksonville, FL</div>
+                            <div class="job-title">Systems Administrator/Cloud Engineer</div>
+                            <div class="duration">
+                                <i class="fas fa-calendar"></i>
+                                Oct 2016 – Apr 2019
+                            </div>
+                        </div>
+                        <ul class="achievements">
+                            <li>Administered mission-critical Linux infrastructure, achieving a <strong>99.9% uptime SLA</strong></li>
+                            <li>Developed Bash automation for backups, user provisioning, and deployments, <strong>reducing manual effort by 70%</strong></li>
+                            <li>Deployed an enterprise monitoring platform with Prometheus, Grafana, and Loki for real-time visibility</li>
+                            <li>Maintained PagerDuty on-call schedules, reducing incident response time to <strong>under 15 minutes</strong></li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Key Projects -->
                 <div class="card">
-                    <h3><i class="fas fa-rocket"></i> Key Projects & Achievements</h3>
-                    
+                    <h3><i class="fas fa-rocket"></i> Key Projects &amp; Achievements</h3>
+
                     <div class="project-item">
                         <div class="project-title">
                             <i class="fas fa-cloud"></i>
                             Infrastructure Automation Initiative
                         </div>
                         <ul class="achievements">
-                            <li>Automated Terraform deployment pipeline reducing deployment time by <strong>50%</strong></li>
-                            <li>Architected production-grade Kubernetes clusters with automated failover capabilities</li>
-                            <li>Implemented secure API interfaces using OAuth 2.0 and OpenID Connect protocols</li>
-                            <li>Deployed comprehensive monitoring stack achieving <strong>100% infrastructure visibility</strong></li>
+                            <li>Automated Terraform release pipeline with security and compliance checks, reducing deployment time by <strong>50%</strong></li>
+                            <li>Migrated manual provisioning to Terraform modules across AWS, GCP, and on-premises, with built-in encryption and RBAC</li>
+                            <li>Automated Ansible configuration management for a secure baseline across <strong>500+ servers</strong></li>
+                            <li>Deployed Prometheus, Grafana, and Loki with <strong>100% infrastructure visibility</strong>, reducing MTTR by 45%</li>
                         </ul>
                     </div>
 
                     <div class="project-item">
                         <div class="project-title">
                             <i class="fas fa-ship"></i>
-                            Kubernetes Cluster Setup & Management
+                            Kubernetes Cluster Setup &amp; Management
                         </div>
                         <ul class="achievements">
-                            <li>Deployed highly available Kubernetes clusters supporting <strong>99.99% uptime SLA</strong></li>
-                            <li>Implemented secure artifact management reducing rollback time by <strong>70%</strong></li>
-                            <li>Integrated HashiCorp Vault for secrets management with encryption protocols</li>
-                            <li>Implemented disaster recovery using Velero with <strong>RTO under 4 hours</strong></li>
+                            <li>Ran highly available Kubernetes clusters on AWS and GKE with a <strong>99.99% uptime SLA</strong></li>
+                            <li>Implemented JFrog Artifactory with vulnerability scanning, reducing rollback time by <strong>70%</strong></li>
+                            <li>Integrated HashiCorp Vault for secrets management and enforced least-privilege RBAC</li>
+                            <li>Implemented Velero backup and disaster recovery with <strong>RTO under 4 hours</strong></li>
+                        </ul>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-title">
+                            <i class="fas fa-sync-alt"></i>
+                            Zero-Downtime Release Management
+                        </div>
+                        <ul class="achievements">
+                            <li>Designed Jenkins and GitOps release cycles with a <strong>99% deployment success rate</strong> and automated rollback</li>
+                            <li>Implemented blue/green and canary releases for applications serving <strong>1M+ daily active users</strong></li>
+                            <li>Led the Jenkins to Harness migration with SAST/DAST, dependency, and compliance checks built in</li>
                         </ul>
                     </div>
 
                     <div class="project-item">
                         <div class="project-title">
                             <i class="fas fa-dollar-sign"></i>
-                            Cloud Cost Optimization & FinOps Initiative
+                            Cloud Cost Optimization &amp; FinOps
                         </div>
                         <ul class="achievements">
-                            <li>Implemented comprehensive cost monitoring eliminating <strong>$500K in annual waste</strong></li>
-                            <li>Automated resource optimization achieving <strong>35% cost reduction</strong></li>
-                            <li>Developed automated RI purchasing strategy resulting in <strong>40% savings</strong> on compute costs</li>
+                            <li>Implemented cost monitoring across AWS, Azure, and GCP with CloudHealth, eliminating <strong>$500K in annual waste</strong></li>
+                            <li>Automated right-sizing with Python and Lambda, achieving <strong>35% cost reduction</strong></li>
+                            <li>Developed an automated RI purchasing strategy resulting in <strong>40% savings</strong> on compute costs</li>
+                        </ul>
+                    </div>
+
+                    <div class="project-item">
+                        <div class="project-title">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Site Reliability &amp; Performance
+                        </div>
+                        <ul class="achievements">
+                            <li>Established SLO/SLI definitions across <strong>50+ microservices</strong>, achieving 99.95% availability</li>
+                            <li>Reduced average response time by <strong>60%</strong> through query optimization, caching, and CDN</li>
+                            <li>Introduced chaos engineering with Gremlin to find weaknesses before they reach production</li>
                         </ul>
                     </div>
                 </div>
