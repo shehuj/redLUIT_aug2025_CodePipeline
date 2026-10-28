@@ -1,0 +1,123 @@
+# Continuous deployment: after the test suite passes, deploys the site to AWS.
+#   dev  -> beta (logs to the BETA_LOG_GROUP CloudWatch log group)
+#   main -> prod (logs to the PROD_LOG_GROUP CloudWatch log group)
+# Each environment is its own CloudFormation stack (infrastructure/site.yaml): a private S3 bucket
+# served by CloudFront. Requires repo secrets AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_REGION,
+# BETA_LOG_GROUP and PROD_LOG_GROUP.
+
+name: Deploy
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    uses: ./.github/workflows/TestsPackage.yml
+
+  deploy:
+    name: Deploy to ${{ github.ref_name == 'main' && 'prod' || 'beta' }}
+    needs: tests
+    if: github.ref_name == 'main' || github.ref_name == 'dev'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: ${{ github.ref_name == 'main' && 'prod' || 'beta' }}
+      url: ${{ steps.stack.outputs.url }}
+    # Never run two deployments to the same environment at once, and never cancel one midway
+    concurrency:
+      group: deploy-${{ github.ref_name }}
+      cancel-in-progress: false
+    env:
+      ENVIRONMENT: ${{ github.ref_name == 'main' && 'prod' || 'beta' }}
+      STACK_NAME: redluit-site-${{ github.ref_name == 'main' && 'prod' || 'beta' }}
+      LOG_GROUP: ${{ github.ref_name == 'main' && secrets.PROD_LOG_GROUP || secrets.BETA_LOG_GROUP }}
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Deploy hosting stack
+      run: |
+        aws cloudformation deploy \
+          --stack-name "$STACK_NAME" \
+          --template-file infrastructure/site.yaml \
+          --parameter-overrides EnvironmentName="$ENVIRONMENT" \
+          --tags Project=redLUIT Environment="$ENVIRONMENT" \
+          --no-fail-on-empty-changeset
+
+    - name: Read stack outputs
+      id: stack
+      run: |
+        output() {
+          aws cloudformation describe-stacks --stack-name "$STACK_NAME" \
+            --query "Stacks[0].Outputs[?OutputKey=='$1'].OutputValue" --output text
+        }
+        {
+          echo "bucket=$(output SiteBucketName)"
+          echo "distribution=$(output DistributionId)"
+          echo "url=$(output WebsiteUrl)"
+        } >> "$GITHUB_OUTPUT"
+
+    - name: Upload site
+      run: |
+        # Publish only the pages; tests, workflows and docs never reach the bucket
+        mkdir -p _site
+        cp ./*.html _site/
+        aws s3 sync _site/ "s3://${{ steps.stack.outputs.bucket }}/" \
+          --delete --cache-control "public, max-age=300"
+
+    - name: Invalidate CDN cache
+      run: |
+        aws cloudfront create-invalidation \
+          --distribution-id "${{ steps.stack.outputs.distribution }}" --paths "/*" \
+          --query "Invalidation.Id" --output text
+
+    - name: Smoke test
+      run: |
+        # Retry while CloudFront picks up the new content
+        for _ in 1 2 3 4 5 6; do
+          if curl -fsS -o /dev/null "${{ steps.stack.outputs.url }}/"; then
+            echo "Site is up: ${{ steps.stack.outputs.url }}"
+            exit 0
+          fi
+          sleep 20
+        done
+        echo "Site did not respond with 2xx: ${{ steps.stack.outputs.url }}" >&2
+        exit 1
+
+    - name: Record deployment in CloudWatch Logs
+      if: always() && env.LOG_GROUP != ''
+      env:
+        STATUS: ${{ job.status }}
+        URL: ${{ steps.stack.outputs.url }}
+      run: |
+        if [ -z "$(aws logs describe-log-groups --log-group-name-prefix "$LOG_GROUP" \
+              --query "logGroups[?logGroupName=='$LOG_GROUP'].logGroupName" --output text)" ]; then
+          aws logs create-log-group --log-group-name "$LOG_GROUP"
+          aws logs put-retention-policy --log-group-name "$LOG_GROUP" --retention-in-days 90
+        fi
+
+        STREAM="deploy-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+        aws logs create-log-stream --log-group-name "$LOG_GROUP" --log-stream-name "$STREAM"
+
+        MESSAGE=$(jq -cn \
+          --arg environment "$ENVIRONMENT" --arg status "$STATUS" --arg url "$URL" \
+          --arg commit "$GITHUB_SHA" --arg branch "$GITHUB_REF_NAME" --arg actor "$GITHUB_ACTOR" \
+          --arg run "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+          '{event: "deployment", environment: $environment, status: $status, url: $url,
+            commit: $commit, branch: $branch, actor: $actor, run: $run}')
+        aws logs put-log-events --log-group-name "$LOG_GROUP" --log-stream-name "$STREAM" \
+          --log-events "$(jq -cn --arg message "$MESSAGE" --argjson ts "$(date +%s%3N)" \
+            '[{timestamp: $ts, message: $message}]')"
+        echo "Logged $STATUS deployment to $LOG_GROUP/$STREAM"
