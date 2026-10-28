@@ -4,9 +4,9 @@
 [![TestsPackage](https://github.com/shehuj/redLUIT_aug2025_CodePipeline/actions/workflows/TestsPackage.yml/badge.svg)](https://github.com/shehuj/redLUIT_aug2025_CodePipeline/actions/workflows/TestsPackage.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-A static website (a Level Up In Tech landing page and a résumé) delivered by a **GitHub Actions** CI/CD
+A static website (a résumé page, `website.html`) delivered by a **GitHub Actions** CI/CD
 pipeline to **AWS**. Every change is tested. Pushes to `dev` deploy to **beta** and pushes to `main` deploy
-to **prod**. Each environment serves its pages from a private S3 bucket through Amazon CloudFront over
+to **prod**. Each environment serves the page from a private S3 bucket through Amazon CloudFront over
 HTTPS, and each deployment is recorded in that environment's CloudWatch log group.
 
 ## Architecture
@@ -33,8 +33,7 @@ HTTPS, and each deployment is recorded in that environment's CloudWatch log grou
 
 | Path | Purpose |
 | --- | --- |
-| `website.html` | Landing page (default root object) |
-| `myResume.html` | Résumé page |
+| `website.html` | Résumé page (the only page served; default root object) |
 | `infrastructure/site.yaml` | CloudFormation for one environment: S3 bucket, CloudFront + OAC, bucket policy |
 | `.github/workflows/deploy.yml` | CD: on push to `dev`/`main`, run tests, then deploy to beta/prod |
 | `.github/workflows/TestsPackage.yml` | CI: runs on every PR, and is called by `deploy.yml` before each deploy |
@@ -56,14 +55,14 @@ pytest -v tests/                      # full test suite
 cfn-lint infrastructure/*.yaml        # CloudFormation lint
 ```
 
-Open `website.html` or `myResume.html` in a browser to preview your changes.
+Open `website.html` in a browser to preview your changes.
 
 ### What the tests enforce
 
 - Required repository files exist and are not empty
 - Every page has an HTML5 doctype, balanced tags, `lang`, a UTF-8 charset, a viewport, a description and a title
 - External assets load over HTTPS with Subresource Integrity (`integrity` + `crossorigin`)
-- Relative links between pages resolve
+- Relative links resolve to files in the repository
 - `bucketPolicy.json` grants nothing beyond `s3:GetObject` on objects
 
 ## Deployment
